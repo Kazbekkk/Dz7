@@ -13,7 +13,7 @@ Console.Clear();
 
 Random r = new Random();
 
-int line, column, search, counter, num1;
+int line, column, search, counter, numSearch, check, lineSearch, columnSearch;
 
 Console.Write("Введите количесвто строк в массиве: ");
 line = int.Parse(Console.ReadLine());
@@ -22,37 +22,42 @@ Console.Write("Введите количесвто столбцов в масс�
 column = int.Parse(Console.ReadLine());
 
 Console.Write("Введите число которое хотите найти в массиве: ");
-search = int.Parse(Console.ReadLine());
+search = int.Parse(Console.ReadLine()); // номер позиции элемента в массиве  
 
 int[,] array = ArrayMet(line, column);
 
 
 int[,] ArrayMet(int lineMet, int columnMet)
 {
-    int[] arr1 = new int[1];
+    
+    numSearch = 0; // число найденое
+    lineSearch = 0; // строка найденого числа 
+    columnSearch = 0; // столбец найденого числа 
+    check = 0; // Проверка. Если рано нулю значит число не нашли
     int[,] arr = new int[lineMet, columnMet];
-    counter = 0;
-    for (int a = 0; a < arr1.GetLength(0); a++)
-    {
-        for (int i = 0; i < arr.GetLength(0); i++)
-        {
-            for (int j = 0; j < arr.GetLength(1); j++)
-            {
-                arr[i, j] = r.Next(-10, 10 + 1);
-                if (counter == search)
-                {
-                    arr1[0] = arr[i, j];
-                }
-                counter++;
-                Console.Write($"{String.Join(" ", arr[i, j])}, ");
+    counter = 0; // счетчик 
 
+    for (int i = 0; i < arr.GetLength(0); i++) // строки двумерного массива
+    {
+        for (int j = 0; j < arr.GetLength(1); j++) // столбцы двумерного массива
+        {
+            arr[i, j] = r.Next(-10, 10 + 1);
+            if (counter == search) // если счетчик == номеру позиции элемента присваеваем значение numSearch
+            {
+                numSearch = arr[i, j];
+                lineSearch = i;
+                columnSearch = j;
+                check ++; // Если рано единице значит число  нашли
             }
-            Console.WriteLine();
+            counter++;
+            Console.Write($"{String.Join(" ", arr[i, j])}, ");
 
         }
-        if (arr1[0] > -1) Console.WriteLine($"Число под индексом {search} будет {arr1[0]}");
-        else Console.WriteLine($"Число под индексом {search} нету");
+        Console.WriteLine();
+
     }
+    if (check > 0) Console.WriteLine($"Число под индексом {search} будет {numSearch} и находится в {lineSearch} строке; {columnSearch} столбце ");
+    else Console.WriteLine($"Число под индексом {search} нету");
 
     return arr;
 }
